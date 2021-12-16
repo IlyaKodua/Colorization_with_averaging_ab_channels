@@ -3,7 +3,7 @@
 Part of code was taken from 
 https://github.com/moein-shariatnia/Deep-Learning/tree/main/Image%20Colorization%20Tutorial 
 
-Model was tacken from another progect 
+Model was taken from another project
 https://github.com/richzhang/colorization 
 
 My model was trained for 6 epoches on COCO dataset.
