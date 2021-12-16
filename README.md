@@ -11,9 +11,9 @@ My model was trained on COCO dataset (6 epochs).
 You can douwload weights for this model by this link 
 https://drive.google.com/file/d/1m6TTc0K8v-d4hFJBjyPHHO3HdBU7Qs4S/view?usp=sharing 
 
-![Blank diagram](https://user-images.githubusercontent.com/82718432/146439354-7ba04506-1bc1-4b73-ab3f-f349ed34e0db.png)
+![Blank diagram (1)](https://user-images.githubusercontent.com/82718432/146444898-acbde134-219e-481b-9087-3484716f9006.png)
 
-Example of colorization you can find in 
+Example of colorization you can find at
 https://github.com/IlyaKodua/colorizator_to_use 
 
 ![Blank diagram (1)](https://user-images.githubusercontent.com/82718432/146436626-d1140ce4-55a8-44bb-bec5-8d4cd0ea9a30.jpeg)
