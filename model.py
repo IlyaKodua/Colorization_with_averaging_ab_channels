@@ -7,15 +7,16 @@ from gloss import*
 from torch import optim
 
 class MainModel(nn.Module):
-    def __init__(self, net_G=None, lr_G=2e-4, lr_D=2e-4, 
+    def __init__(self, net_G=None, lr_G=2e-5, lr_D= 2e-5, 
                  beta1=0.5, beta2=0.999, lambda_L1=100.):
         super().__init__()
         
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(self.device)
         self.lambda_L1 = lambda_L1
         
         if net_G is None:
-            self.net_G = init_model(Unet(input_c=1, output_c=2, n_down=8, num_filters=64), self.device)
+            self.net_G = init_model(Unet(input_c=3, output_c=2, n_down=8, num_filters=64), self.device)
         else:
             self.net_G = net_G.to(self.device)
         self.net_D = init_model(PatchDiscriminator(input_c=3, n_down=3, num_filters=64), self.device)
@@ -31,9 +32,10 @@ class MainModel(nn.Module):
     def setup_input(self, data):
         self.L = data['L'].to(self.device)
         self.ab = data['ab'].to(self.device)
+        self.mask = data['mask'].to(self.device)
         
     def forward(self):
-        self.fake_color = self.net_G(self.L)
+        self.fake_color = self.net_G(self.L, self.mask)
     
     def backward_D(self):
         fake_image = torch.cat([self.L, self.fake_color], dim=1)
@@ -66,3 +68,14 @@ class MainModel(nn.Module):
         self.opt_G.zero_grad()
         self.backward_G()
         self.opt_G.step()
+
+
+    def save(self):
+        torch.save(self.net_G.state_dict(), "g_next.pth")
+        torch.save(self.net_D.state_dict(), "d.pth")
+
+
+    def load(self):
+        self.net_G.load_state_dict(torch.load("g_next.pth"))
+        self.net_D.load_state_dict(torch.load("d.pth"))
+
