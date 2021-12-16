@@ -5,6 +5,8 @@ from torchvision import transforms
 from PIL import Image
 from skimage.color import rgb2lab, lab2rgb
 import numpy as np
+from meaning import *
+import random
 
 SIZE = 256
 class ColorizationDataset(Dataset):
@@ -29,13 +31,19 @@ class ColorizationDataset(Dataset):
         img_lab = transforms.ToTensor()(img_lab)
         L = img_lab[[0], ...] / 50. - 1. # Between -1 and 1
         ab = img_lab[[1, 2], ...] / 110. # Between -1 and 1
+        num = random.randint(10, 21)
+        if(num < 21):
+            mean_ab = meaning(ab, num)
+        else:
+            mean_ab = torch.zeros_like(ab)
         
-        return {'L': L, 'ab': ab}
+        
+        return {'L': L, 'ab': ab, 'mask' : mean_ab}
     
     def __len__(self):
         return len(self.paths)
 
-def make_dataloaders(batch_size=16, n_workers=4, pin_memory=True, **kwargs): # A handy function to make our dataloaders
+def make_dataloaders(batch_size=4, n_workers=4, pin_memory=True, **kwargs): # A handy function to make our dataloaders
     dataset = ColorizationDataset(**kwargs)
     dataloader = DataLoader(dataset, batch_size=batch_size, num_workers=n_workers,
                             pin_memory=pin_memory)
