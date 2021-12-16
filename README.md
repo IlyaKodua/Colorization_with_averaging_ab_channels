@@ -6,7 +6,7 @@ https://github.com/moein-shariatnia/Deep-Learning/tree/main/Image%20Colorization
 Model was taken from another project
 https://github.com/richzhang/colorization 
 
-My model was trained for 6 epoches on COCO dataset.
+My model was trained on COCO dataset (6 epochs).
 
 You can douwload weights for this model by this link 
 https://drive.google.com/file/d/1m6TTc0K8v-d4hFJBjyPHHO3HdBU7Qs4S/view?usp=sharing 
