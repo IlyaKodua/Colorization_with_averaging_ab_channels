@@ -1,4 +1,4 @@
-# colorization_with_mask
+# Colorization with mask
 part of code was taken from 
 https://github.com/moein-shariatnia/Deep-Learning/tree/main/Image%20Colorization%20Tutorial
 
