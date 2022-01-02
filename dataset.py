@@ -65,7 +65,7 @@ class ColorizationDataset(Dataset):
         max_param['a'] = np.max(img_a)
         max_param['b'] = np.max(img_b)
 
-        return max_param, min_param
+        return max_param,  min_param
 
 def make_dataloaders(batch_size=4, n_workers=4, pin_memory=True, **kwargs): # A handy function to make our dataloaders
     dataset = ColorizationDataset(**kwargs)
