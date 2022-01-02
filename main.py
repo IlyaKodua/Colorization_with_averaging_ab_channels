@@ -17,12 +17,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 from dataset import*
 
-paths = glob.glob("/home/liya/projects/ColorPix2Pix/archive/coco2017/train/*.jpg") # Your path for your dataset
+paths = glob.glob("/home/liya/devel/to_png/img_jpg/*.png") # Your path for your dataset
 np.random.seed(123)
-paths_subset = np.random.choice(paths, 115000, replace=False) # choosing 1000 images randomly
-rand_idxs = np.random.permutation(115000)
-train_idxs = rand_idxs[:114000] # choosing the first 8000 as training set
-val_idxs = rand_idxs[114000:] # choosing last 2000 as validation set
+paths_subset = np.random.choice(paths, 20, replace=False) # choosing 1000 images randomly
+rand_idxs = np.random.permutation(20)
+train_idxs = rand_idxs[:20] # choosing the first 8000 as training set
+val_idxs = rand_idxs[20:] # choosing last 2000 as validation set
 train_paths = paths_subset[train_idxs]
 val_paths = paths_subset[val_idxs]
 print(len(train_paths), len(val_paths))
@@ -65,9 +65,9 @@ def train_model(model, train_dl, epochs, display_every=1):
                 print(1)
                 # model.save()
 
-gen = siggraph17(True)
+gen = siggraph17(False)
 model = MainModel(gen)
-model.load()
+# model.load()
 train_model(model, train_dl, 10)
 model.save()
 
