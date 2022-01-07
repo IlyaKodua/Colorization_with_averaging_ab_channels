@@ -36,6 +36,22 @@ def update_losses(model, loss_meter_dict, count):
         loss = getattr(model, loss_name)
         loss_meter.update(loss.item(), count=count)
 
+
+def rgb_to_lab_norm(L, ab):
+    """
+    Takes a batch of images
+    """
+    
+    L = (L + 1.) * 50.
+    ab = ab * 110.
+    Lab = torch.cat([L, ab], dim=1).permute(0, 2, 3, 1).cpu().numpy()
+    rgb_imgs = []
+    for img in Lab:
+        img_rgb = lab2rgb(img)
+        rgb_imgs.append(img_rgb)
+    return np.stack(rgb_imgs, axis=0)
+
+
 def lab_to_rgb(L, ab):
     """
     Takes a batch of images
@@ -79,3 +95,29 @@ def visualize(model, data, save=True):
 def log_results(loss_meter_dict):
     for loss_name, loss_meter in loss_meter_dict.items():
         print(f"{loss_name}: {loss_meter.avg:.5f}")
+
+
+
+
+def norm_coef_lab(self):
+    img = np.mgrid[0:256, 0:256, 0:256].astype(np.float32)
+    img /= 255
+    min_param = dict()
+    max_param = dict()
+
+    img_lab = rgb2lab(img.T)
+
+    img_L = img_lab[:,:,:,0]
+    img_a = img_lab[:,:,:,1]
+    img_b = img_lab[:,:,:,2]
+
+    min_param['L'] = np.min(img_L)
+    min_param['a'] = np.min(img_a)
+    min_param['b'] = np.min(img_b)
+
+    max_param['L'] = np.max(img_L)
+    max_param['a'] = np.max(img_a)
+    max_param['b'] = np.max(img_b)
+
+    return max_param, min_param
+
